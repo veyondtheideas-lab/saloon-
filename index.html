@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA & GEOMETRY — Haute Coiffure & Aesthetic Precision</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat, Syne, Space Grotesk & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        montserrat: ['Montserrat', 'sans-serif'],
+                        syne: ['Syne', 'sans-serif'],
+                        space: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#0A0A0A',
+                            paper: '#FAFAFA',
+                            grid: '#0047FF',
+                            accent: '#111111',
+                            muted: '#666666'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Graph Paper Grid Styling */
+        .math-grid {
+            background-color: #f8fafc;
+            background-image: 
+                linear-gradient(to right, rgba(0, 71, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 71, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(to right, rgba(0, 71, 255, 0.18) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 71, 255, 0.18) 1px, transparent 1px);
+            background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+        }
+
+        /* Navbar Custom Hover Box Effect with Montserrat */
+        .nav-item {
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .nav-item:hover {
+            background-color: #000000;
+            color: #ffffff !important;
+        }
+
+        /* Translucent Mirror Glass Style */
+        .glass-mirror {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            box-shadow: 10px 10px 0px #000000;
+        }
+
+        /* Asymmetrical Organic Asymmetric Blur Mask Frame for Hero Image */
+        .organic-blur-container {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            aspect-ratio: 4 / 5;
+            filter: drop-shadow(0px 15px 35px rgba(0, 0, 0, 0.12));
+        }
+
+        .organic-mask-wrapper {
+            width: 100%;
+            height: 100%;
+            /* Asymmetrical, non-perfect organic blob shape */
+            border-radius: 68% 32% 43% 57% / 47% 65% 35% 53%;
+            overflow: hidden;
+            position: relative;
+            background: transparent;
+            /* Soft irregular edge feathering blur */
+            box-shadow: inset 0 0 40px 20px rgba(255, 255, 255, 0.95);
+        }
+
+        .organic-mask-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 53% 47% 62% 38% / 35% 55% 45% 65%;
+            pointer-events: none;
+            box-shadow: inset 0 0 25px 15px #ffffff, 0 0 30px 10px rgba(0, 0, 0, 0.05);
+            z-index: 25;
+        }
+
+        /* Custom Sharp Gradient Text Box */
+        .gradient-box {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+            border: 1px solid #000000;
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .gradient-box-dark {
+            background: linear-gradient(135deg, #0a0a0a 0%, #171717 100%);
+            border: 1px solid #000000;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.25);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #000000;
+        }
+
+        /* Scissors Rotation & Animations */
+        .shear-blade {
+            transform-origin: 450px 150px;
+            transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Canvas styling */
+        #combCanvas, #jellyCanvas {
+            cursor: pointer;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="bg-white text-black font-space antialiased selection:bg-black selection:text-white overflow-x-hidden">
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="sticky top-0 z-50 bg-white border-b border-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-8 h-8 bg-black flex items-center justify-center font-syne text-white font-bold text-lg group-hover:rotate-45 transition-transform duration-300">
+                    A
+                </div>
+                <span class="font-syne font-extrabold text-xl tracking-wider text-black uppercase">
+                    AURA <span class="font-light text-neutral-500">&</span> GEOMETRY
+                </span>
+            </a>
+
+            <!-- Desktop Nav Links with Montserrat Font -->
+            <nav class="hidden md:flex items-center gap-1 font-montserrat text-xs uppercase tracking-widest font-bold">
+                <a href="#analysis" class="nav-item px-4 py-2.5 text-black border border-transparent hover:border-black">
+                    [01] Hair Geometry
+                </a>
+                <a href="#craft" class="nav-item px-4 py-2.5 text-black border border-transparent hover:border-black">
+                    [02] Precision Shear
+                </a>
+                <a href="#looksmax" class="nav-item px-4 py-2.5 text-black border border-transparent hover:border-black">
+                    [03] Aesthetics
+                </a>
+                <a href="#comb" class="nav-item px-4 py-2.5 text-black border border-transparent hover:border-black">
+                    [04] Wave Comb
+                </a>
+                <a href="#contact" class="nav-item px-4 py-2.5 text-black border border-transparent hover:border-black">
+                    [05] Atelier Info
+                </a>
+            </nav>
+
+            <!-- CTA Button with Montserrat Font -->
+            <button onclick="openModal()" class="hidden sm:inline-flex items-center justify-center px-6 py-2.5 font-montserrat text-xs uppercase font-extrabold tracking-wider text-white bg-black border border-black hover:bg-white hover:text-black transition-colors duration-200">
+                Reserve Session
+            </button>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobileMenuBtn" class="md:hidden p-2 text-black hover:bg-neutral-100 border border-black">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-black bg-white px-4 py-6 space-y-3 font-montserrat text-xs uppercase font-bold">
+            <a href="#analysis" onclick="toggleMobileMenu()" class="block py-2.5 px-4 hover:bg-black hover:text-white border border-transparent hover:border-black">[01] Hair Geometry</a>
+            <a href="#craft" onclick="toggleMobileMenu()" class="block py-2.5 px-4 hover:bg-black hover:text-white border border-transparent hover:border-black">[02] Precision Shear</a>
+            <a href="#looksmax" onclick="toggleMobileMenu()" class="block py-2.5 px-4 hover:bg-black hover:text-white border border-transparent hover:border-black">[03] Aesthetics</a>
+            <a href="#comb" onclick="toggleMobileMenu()" class="block py-2.5 px-4 hover:bg-black hover:text-white border border-transparent hover:border-black">[04] Wave Comb</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block py-2.5 px-4 hover:bg-black hover:text-white border border-transparent hover:border-black">[05] Atelier Info</a>
+            <button onclick="openModal(); toggleMobileMenu();" class="w-full mt-4 py-3 bg-black text-white font-bold uppercase tracking-wider text-center">Reserve Session</button>
+        </div>
+    </header>
+
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="py-12 md:py-20 border-b border-black relative overflow-hidden bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left Main Typography Hero Content -->
+                <div class="lg:col-span-7 space-y-8 z-10">
+                    <div class="inline-flex items-center gap-2 border border-black px-3.5 py-1.5 font-montserrat text-xs font-bold uppercase tracking-widest bg-neutral-50 shadow-[2px_2px_0px_#000]">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        Architectural Hair Engineering
+                    </div>
+                    
+                    <h1 class="font-syne text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.92] text-black uppercase">
+                        HAIRCUTS CALCULATED TO <span class="bg-black text-white px-2 py-0.5 inline-block">MAXIMIZE</span> YOUR CRANIAL RATIO.
+                    </h1>
+
+                    <p class="font-space text-base sm:text-lg text-neutral-700 max-w-2xl leading-relaxed">
+                        We reject standard barbering. We analyze bone density, cheekbone projection, jawline vectors, and cranial symmetry to craft bespoke hairstyles using mathematical golden ratios.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-4 pt-2 font-montserrat text-xs font-extrabold">
+                        <button onclick="openModal()" class="px-8 py-4 bg-black text-white uppercase tracking-widest hover:bg-neutral-800 transition-colors shadow-[4px_4px_0px_#0047FF]">
+                            [ Book Cranial Mapping ]
+                        </button>
+                        <a href="#analysis" class="px-8 py-4 border border-black bg-white text-black uppercase tracking-widest hover:bg-black hover:text-white transition-colors">
+                            Explore Math Charts ↓
+                        </a>
+                    </div>
+
+                    <!-- Status Metric -->
+                    <div class="pt-4 flex items-center gap-6 font-mono text-xs text-neutral-500 border-t border-neutral-200">
+                        <div>CRANIAL VECTOR: <span class="text-black font-bold">1.618 $\Phi$</span></div>
+                        <div>JOWLINE ILLUMINATION: <span class="text-black font-bold">+38° OPTIC</span></div>
+                    </div>
+                </div>
+
+                <!-- Right Hero: Interactive Jelly Elastic Translucent Glass Mirror Photo -->
+                <div class="lg:col-span-5 relative flex items-center justify-center">
+                    <div class="organic-blur-container flex items-center justify-center p-2">
+                        
+                        <!-- Organic Odd-Shaped Masked Wrapper (No rigid borders, irregular blurred edge) -->
+                        <div class="organic-mask-wrapper relative w-full h-full flex items-center justify-center">
+                            <!-- Background soft glowing blur layer -->
+                            <div class="absolute inset-0 bg-neutral-100 opacity-60 backdrop-blur-2xl"></div>
+
+                            <!-- Interactive Jelly Physics Canvas -->
+                            <canvas id="jellyCanvas" class="w-full h-full relative z-10 block"></canvas>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= MATH GRAPH HAIRSTYLE CHART SECTION ================= -->
+    <section id="analysis" class="py-20 border-b border-black math-grid relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div>
+                    <span class="font-mono text-xs text-brand-grid uppercase tracking-widest">[ MATHEMATICAL GRAPH ANALYSIS ]</span>
+                    <h2 class="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase mt-1">
+                        Anime Architectural Sketches & Ratios
+                    </h2>
+                </div>
+                <div class="font-mono text-xs text-neutral-600 border border-black p-3 bg-white shadow-[2px_2px_0px_#000]">
+                    <div>COORDINATE MAPPING: ACTIVE</div>
+                    <div>CANTHAL TILT REF: OPTIMAL</div>
+                </div>
+            </div>
+
+            <!-- Graph Area -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- Main Sketch Board -->
+                <div class="lg:col-span-8 bg-white border-2 border-black p-6 relative shadow-[6px_6px_0px_#000]">
+                    <!-- Math Grid overlay -->
+                    <div class="absolute inset-0 math-grid opacity-30 pointer-events-none"></div>
+
+                    <!-- Header bar -->
+                    <div class="flex justify-between items-center border-b border-black pb-3 mb-6 font-mono text-xs">
+                        <span>X-AXIS: TEMPORAL WIDTH</span>
+                        <span>Y-AXIS: VERTICAL VOLUME</span>
+                    </div>
+
+                    <!-- Sketch Illustrations Grid (Anime-Style Vector Lines) -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                        <!-- Sketch 1: Textured Crop -->
+                        <div onclick="selectStyle('Textured Modern Crop', '1.618 $\\Phi$', '+22%', 'Maximizes perceived jaw angularity and temporal shadow')" class="border border-black p-4 bg-slate-50 hover:bg-neutral-100 cursor-pointer transition-colors group">
+                            <div class="aspect-square border border-dashed border-black/40 mb-3 flex items-center justify-center p-2 relative bg-white">
+                                <svg class="w-full h-full text-black group-hover:scale-105 transition-transform" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <circle cx="50" cy="55" r="28" stroke-dasharray="2 2" stroke="#0047FF"/>
+                                    <!-- Anime Head outline -->
+                                    <path d="M 32 50 C 32 32, 68 32, 68 50 C 68 68, 58 82, 50 82 C 42 82, 32 68, 32 50 Z" stroke="#000" stroke-width="1.5"/>
+                                    <path d="M 40 78 L 40 92 M 60 78 L 60 92" stroke="#000"/>
+                                    <!-- Sharp Anime Spiky Textured Crop Hair -->
+                                    <path d="M 28 48 L 22 40 L 32 38 L 26 28 L 38 30 L 36 18 L 48 24 L 52 14 L 60 22 L 68 18 L 68 28 L 76 28 L 70 38 L 78 42 L 70 48" fill="#000"/>
+                                    <path d="M 32 38 L 40 46 L 50 40 L 60 48 L 68 40" stroke="#FFF" stroke-width="1.5"/>
+                                </svg>
+                            </div>
+                            <div class="font-montserrat text-xs font-bold uppercase">[ 01 ] Textured Crop</div>
+                            <div class="font-mono text-[10px] text-neutral-500 mt-1">Ratio: 1.618 Golden</div>
+                        </div>
+
+                        <!-- Sketch 2: Taper Flow -->
+                        <div onclick="selectStyle('Mid Taper Flow', '1.732 \\sqrt{3}', '+35%', 'Elongates cranial height while softening strong jaw corners')" class="border border-black p-4 bg-slate-50 hover:bg-neutral-100 cursor-pointer transition-colors group">
+                            <div class="aspect-square border border-dashed border-black/40 mb-3 flex items-center justify-center p-2 relative bg-white">
+                                <svg class="w-full h-full text-black group-hover:scale-105 transition-transform" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <circle cx="50" cy="55" r="28" stroke-dasharray="2 2" stroke="#0047FF"/>
+                                    <path d="M 32 50 C 32 32, 68 32, 68 50 C 68 68, 58 82, 50 82 C 42 82, 32 68, 32 50 Z" stroke="#000" stroke-width="1.5"/>
+                                    <!-- Flowing Anime curtain hairstyle -->
+                                    <path d="M 28 52 C 22 30, 48 18, 50 28 C 52 18, 78 30, 72 52 C 68 38, 55 30, 50 36 C 45 30, 32 38, 28 52 Z" fill="#000"/>
+                                    <path d="M 50 28 L 50 80" stroke="#0047FF" stroke-width="0.8" stroke-dasharray="2 2"/>
+                                </svg>
+                            </div>
+                            <div class="font-montserrat text-xs font-bold uppercase">[ 02 ] Mid Taper Flow</div>
+                            <div class="font-mono text-[10px] text-neutral-500 mt-1">Ratio: 1.732 Root3</div>
+                        </div>
+
+                        <!-- Sketch 3: Geometric Wolf Cut -->
+                        <div onclick="selectStyle('Geometric Wolf Cut', '2.000 MATRIX', '+40%', 'Dramatic temporal frame with sweeping layered perimeter')" class="border border-black p-4 bg-slate-50 hover:bg-neutral-100 cursor-pointer transition-colors group">
+                            <div class="aspect-square border border-dashed border-black/40 mb-3 flex items-center justify-center p-2 relative bg-white">
+                                <svg class="w-full h-full text-black group-hover:scale-105 transition-transform" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.2">
+                                    <circle cx="50" cy="55" r="28" stroke-dasharray="2 2" stroke="#0047FF"/>
+                                    <path d="M 32 50 C 32 32, 68 32, 68 50 C 68 68, 58 82, 50 82 C 42 82, 32 68, 32 50 Z" stroke="#000" stroke-width="1.5"/>
+                                    <!-- Spiky Wolf Cut perimeter -->
+                                    <path d="M 22 55 L 28 42 L 18 36 L 30 28 L 22 20 L 38 18 L 50 10 L 62 18 L 78 20 L 70 28 L 82 36 L 72 42 L 78 55 L 68 48 L 64 68 L 36 68 L 32 48 Z" fill="#000"/>
+                                </svg>
+                            </div>
+                            <div class="font-montserrat text-xs font-bold uppercase">[ 03 ] Geometric Wolf</div>
+                            <div class="font-mono text-[10px] text-neutral-500 mt-1">Ratio: 2.0 Matrix</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Stats Side Panel -->
+                <div class="lg:col-span-4 bg-black text-white p-6 border-2 border-black flex flex-col justify-between shadow-[6px_6px_0px_#0047FF]">
+                    <div class="space-y-6">
+                        <div class="font-mono text-xs text-blue-400 border-b border-neutral-800 pb-2 flex justify-between">
+                            <span>CRANIAL METRICS</span>
+                            <span>AURA ENGINE v4.2</span>
+                        </div>
+
+                        <div>
+                            <div class="font-mono text-[11px] text-neutral-400 uppercase">Selected Hair Architecture</div>
+                            <div id="activeStyleName" class="font-syne text-2xl font-bold text-white uppercase mt-1">
+                                Textured Modern Crop
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 font-mono text-xs border-y border-neutral-800 py-4">
+                            <div>
+                                <span class="text-neutral-500 block">GOLDEN RATIO</span>
+                                <span id="activeRatio" class="text-white font-bold text-sm">1.618 $\Phi$</span>
+                            </div>
+                            <div>
+                                <span class="text-neutral-500 block">JAWLINE GAIN</span>
+                                <span id="activeJaw" class="text-emerald-400 font-bold text-sm">+22%</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="font-mono text-[11px] text-neutral-400 uppercase block mb-1">Optical Transformation</span>
+                            <p id="activeEffect" class="font-space text-xs text-neutral-300 leading-relaxed">
+                                Maximizes perceived jaw angularity and temporal shadow.
+                            </p>
+                        </div>
+                    </div>
+
+                    <button onclick="openModal()" class="w-full mt-6 py-3 bg-white text-black font-montserrat font-bold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors">
+                        Apply This Geometry
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= TILTED GIANT SCISSOR SECTION ================= -->
+    <section id="craft" class="py-24 bg-black text-white relative overflow-hidden w-full border-b border-black">
+        
+        <!-- Background Grid accent -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <span class="font-mono text-xs text-neutral-400 uppercase tracking-widest">[ COBALT STEEL JAPANESE SHEARS ]</span>
+                    <h2 class="font-syne text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight mt-1">
+                        0.01mm Precision Cutting
+                    </h2>
+                </div>
+                <div class="font-mono text-xs text-neutral-400 text-right">
+                    <p class="text-blue-400">HARDNESS: 64 HRC ROCKWELL</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Giant Full-Width Interactive Scissor Render (100vw) -->
+        <div id="scissorContainer" class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-12 flex items-center justify-center cursor-pointer select-none group" onclick="animateScissors()">
+            
+            <div id="scissorFrame" class="relative w-full max-w-[100vw] px-4 h-80 sm:h-96 flex items-center justify-center transform -rotate-12 transition-transform duration-300 ease-out">
+                
+                <!-- Metallic Glow Shadow -->
+                <div class="absolute w-3/4 h-24 bg-blue-600/20 blur-3xl rounded-full"></div>
+
+                <!-- SVG Giant Scissors -->
+                <svg id="scissorSVG" class="w-full h-full max-w-7xl drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)]" viewBox="0 0 900 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- High Precision Metallic Linear Gradients -->
+                        <linearGradient id="bladeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FFFFFF"/>
+                            <stop offset="25%" stop-color="#CBD5E1"/>
+                            <stop offset="50%" stop-color="#64748B"/>
+                            <stop offset="75%" stop-color="#F1F5F9"/>
+                            <stop offset="100%" stop-color="#0F172A"/>
+                        </linearGradient>
+                        <linearGradient id="bladeGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#020617"/>
+                            <stop offset="35%" stop-color="#475569"/>
+                            <stop offset="65%" stop-color="#F8FAFC"/>
+                            <stop offset="100%" stop-color="#1E293B"/>
+                        </linearGradient>
+                        <linearGradient id="handleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#1E293B"/>
+                            <stop offset="50%" stop-color="#090D16"/>
+                            <stop offset="100%" stop-color="#000000"/>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- UPPER BLADE & HANDLE -->
+                    <g id="upperBlade" class="shear-blade">
+                        <!-- Blade Edge -->
+                        <path d="M420 150 L820 90 C840 88 850 82 860 80 C820 110 700 140 420 150 Z" fill="url(#bladeGrad1)" stroke="#FFFFFF" stroke-width="0.5"/>
+                        <!-- Blade Spine -->
+                        <path d="M220 170 L420 150 C700 140 820 110 860 80 C780 130 500 170 220 170 Z" fill="url(#bladeGrad2)"/>
+                        <!-- Handle Ring Upper -->
+                        <path d="M230 170 C180 160 120 110 70 120 C20 130 10 190 50 210 C90 220 150 190 220 170 Z" fill="url(#handleGrad)" stroke="#64748B" stroke-width="2"/>
+                        <circle cx="55" cy="165" r="28" fill="#0A0A0A" stroke="#94A3B8" stroke-width="3"/>
+                    </g>
+
+                    <!-- LOWER BLADE & HANDLE -->
+                    <g id="lowerBlade" class="shear-blade">
+                        <!-- Blade Edge -->
+                        <path d="M420 150 L820 210 C840 212 850 218 860 220 C820 190 700 160 420 150 Z" fill="url(#bladeGrad1)" stroke="#FFFFFF" stroke-width="0.5"/>
+                        <!-- Blade Spine -->
+                        <path d="M220 130 L420 150 C700 160 820 190 860 220 C780 170 500 130 220 130 Z" fill="url(#bladeGrad2)"/>
+                        <!-- Handle Ring Lower with Finger Rest -->
+                        <path d="M230 130 C180 140 120 190 70 180 C20 170 10 110 50 90 C90 80 150 110 220 130 Z" fill="url(#handleGrad)" stroke="#64748B" stroke-width="2"/>
+                        <circle cx="55" cy="135" r="28" fill="#0A0A0A" stroke="#94A3B8" stroke-width="3"/>
+                        <!-- Tang / Finger Extension -->
+                        <path d="M25 95 Q10 80 0 85 Q5 100 20 105 Z" fill="url(#handleGrad)" stroke="#475569"/>
+                    </g>
+
+                    <!-- CENTRAL TENSION SCREW / PIVOT BOLT -->
+                    <circle cx="420" cy="150" r="14" fill="url(#bladeGrad1)" stroke="#000000" stroke-width="2"/>
+                    <circle cx="420" cy="150" r="8" fill="#0047FF"/>
+                    <line x1="415" y1="150" x2="425" y2="150" stroke="#FFFFFF" stroke-width="2"/>
+                </svg>
+
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-mono text-xs text-neutral-400 flex flex-wrap justify-between items-center gap-4">
+            <div>[ SPEC: HAND-FORGED ATS-314 COBALT STEEL ]</div>
+            <div>[ ANGLE OF ATTACK: 32.5 DEGREE CONVEX EDGE ]</div>
+        </div>
+    </section>
+
+
+    <!-- ================= LOOKSMAXXING & HAIR AESTHETICS COPY SECTION ================= -->
+    <section id="looksmax" class="py-24 bg-white text-black border-b border-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <div class="inline-block font-mono text-xs uppercase tracking-widest text-brand-grid border border-brand-grid/30 px-3 py-1">
+                    [ THEORY OF FACIAL HARMONIZATION ]
+                </div>
+                <h2 class="font-syne text-4xl sm:text-5xl font-extrabold uppercase tracking-tight">
+                    Why Hair Architecture Dictates Your Visual Hierarchy
+                </h2>
+                <p class="font-space text-neutral-600 text-base">
+                    Hair isn't just grooming—it is three-dimensional framing that reshapes perceived cranial width, eye-spacing optical illusions, and jawline prominence.
+                </p>
+            </div>
+
+            <!-- Content Grid with Sharp Gradient Boxes -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Pillar 1 -->
+                <div class="gradient-box p-8 flex flex-col justify-between space-y-6 hover:-translate-y-1 transition-transform duration-200">
+                    <div class="space-y-4">
+                        <div class="font-mono text-xs font-bold text-black border-b border-black pb-2 flex justify-between">
+                            <span>PILLAR // 01</span>
+                            <span>[ BONE MAPPING ]</span>
+                        </div>
+                        <h3 class="font-syne text-2xl font-bold uppercase">Cranial Apex Elevation</h3>
+                        <p class="font-space text-sm text-neutral-700 leading-relaxed">
+                            By adding calculated volume specifically at the sagittal suture while tapering the temporal regions, we alter your facial aspect ratio from round/square to the prized **golden oval**.
+                        </p>
+                    </div>
+                    <div class="font-mono text-[11px] text-neutral-500 pt-4 border-t border-black/10">
+                        → OPTICAL EFFECT: +15% PERCEIVED JAW LENGTH
+                    </div>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="gradient-box p-8 flex flex-col justify-between space-y-6 hover:-translate-y-1 transition-transform duration-200">
+                    <div class="space-y-4">
+                        <div class="font-mono text-xs font-bold text-black border-b border-black pb-2 flex justify-between">
+                            <span>PILLAR // 02</span>
+                            <span>[ SHADOW DYNAMICS ]</span>
+                        </div>
+                        <h3 class="font-syne text-2xl font-bold uppercase">Temporal Shadowing</h3>
+                        <p class="font-space text-sm text-neutral-700 leading-relaxed">
+                            A precision skin fade creates a gradient shadow that visually contracts side cranial mass, bringing instant focus to your zygomatic arches (cheekbones) and canthal tilt.
+                        </p>
+                    </div>
+                    <div class="font-mono text-[11px] text-neutral-500 pt-4 border-t border-black/10">
+                        → OPTICAL EFFECT: HIGHER CHEEKBONE PROJECTION
+                    </div>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="gradient-box p-8 flex flex-col justify-between space-y-6 hover:-translate-y-1 transition-transform duration-200">
+                    <div class="space-y-4">
+                        <div class="font-mono text-xs font-bold text-black border-b border-black pb-2 flex justify-between">
+                            <span>PILLAR // 03</span>
+                            <span>[ FOLLICLE DENSITY ]</span>
+                        </div>
+                        <h3 class="font-syne text-2xl font-bold uppercase">Follicular Health & Shine</h3>
+                        <p class="font-space text-sm text-neutral-700 leading-relaxed">
+                            Dead ends reflect light chaotically, making hair look thin and dull. Our micro-point shear technique retains structural weight while removing damaged cuticles for maximum light reflectance.
+                        </p>
+                    </div>
+                    <div class="font-mono text-[11px] text-neutral-500 pt-4 border-t border-black/10">
+                        → OPTICAL EFFECT: HIGH DENSITY REFLECTANCE
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Quote Banner -->
+            <div class="mt-16 gradient-box-dark text-white p-8 sm:p-12 relative overflow-hidden">
+                <div class="max-w-3xl space-y-4">
+                    <span class="font-mono text-xs text-blue-400 uppercase tracking-widest">[ THE LOOKSMAXXING AXIOM ]</span>
+                    <blockquote class="font-syne text-2xl sm:text-3xl font-semibold leading-snug">
+                        "Your hair is the most customizable feature of your physical canvas. Master its geometry, and you master your visual first impression."
+                    </blockquote>
+                    <p class="font-mono text-xs text-neutral-400">— MASTER ART DIRECTOR, AURA & GEOMETRY</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= INTERACTIVE SHARP COMB SECTION ================= -->
+    <section id="comb" class="py-24 bg-neutral-950 text-white border-b border-black relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div>
+                    <span class="font-mono text-xs text-blue-400 uppercase tracking-widest">[ ACOUSTIC WAVE COMB ]</span>
+                    <h2 class="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase mt-1">
+                        Obsidian Precision Comb
+                    </h2>
+                </div>
+                <div class="font-mono text-[11px] text-neutral-500" id="combWaveFreq">
+                    FREQUENCY: 0.00 Hz
+                </div>
+            </div>
+
+            <!-- Interactive Comb Canvas Container -->
+            <div class="bg-black border border-neutral-800 p-4 sm:p-8 shadow-2xl relative flex flex-col items-center">
+                <canvas id="combCanvas" class="w-full h-64 sm:h-80 bg-neutral-950 border border-neutral-900 rounded-none"></canvas>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= FOOTER / ATELIER INFO ================= -->
+    <footer id="contact" class="bg-black text-white pt-20 pb-12 font-space">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 border-b border-neutral-800 pb-16">
+                
+                <!-- Col 1: Brand -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-white text-black flex items-center justify-center font-syne font-bold text-lg">
+                            A
+                        </div>
+                        <span class="font-syne font-extrabold text-2xl tracking-wider text-white">
+                            AURA & GEOMETRY
+                        </span>
+                    </div>
+                    <p class="font-space text-neutral-400 text-sm max-w-sm leading-relaxed">
+                        High-precision architectural salon dedicated to cranial ratio calculation, sharp line fading, and bespoke aesthetics looksmaxxing.
+                    </p>
+                    <div class="font-mono text-xs text-neutral-500">
+                        © 2026 AURA & GEOMETRY INC. ALL RIGHTS RESERVED.
+                    </div>
+                </div>
+
+                <!-- Col 2: Location & Hours -->
+                <div class="lg:col-span-4 space-y-4 font-mono text-xs">
+                    <div class="text-neutral-400 font-bold uppercase tracking-widest text-sm border-b border-neutral-800 pb-2">
+                        [ ATELIER LOCATION & HOURS ]
+                    </div>
+                    <div class="text-neutral-300 space-y-1">
+                        <p class="font-bold text-white">AURA & GEOMETRY FLAGSHIP</p>
+                        <p>742 Obsidian Vector Way, Suite 09</p>
+                        <p>Design District, NY 10012</p>
+                    </div>
+                    <div class="pt-2 text-neutral-400 space-y-1">
+                        <p><span class="text-white">TUE - SAT:</span> 10:00 - 20:00 EST</p>
+                        <p><span class="text-white">SUN - MON:</span> RESERVED FOR PRIVATE MAPPING</p>
+                    </div>
+                    <div class="pt-2">
+                        <a href="tel:+18005550199" class="text-blue-400 hover:underline">+1 (800) 555-AURA</a>
+                    </div>
+                </div>
+
+                <!-- Col 3: Direct Actions -->
+                <div class="lg:col-span-3 space-y-4 font-mono text-xs">
+                    <div class="text-neutral-400 font-bold uppercase tracking-widest text-sm border-b border-neutral-800 pb-2">
+                        [ DIRECT ACCESS ]
+                    </div>
+                    <ul class="space-y-2.5">
+                        <li>
+                            <button onclick="openModal()" class="w-full text-left py-2.5 px-4 bg-white text-black font-bold uppercase hover:bg-neutral-200 transition-colors">
+                                Schedule Consultation
+                            </button>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 px-3 border border-neutral-800 hover:border-white text-neutral-300 hover:text-white transition-colors">
+                                Instagram [@aura.geometry]
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 px-3 border border-neutral-800 hover:border-white text-neutral-300 hover:text-white transition-colors">
+                                Lookbook PDF (2026 Edition)
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-neutral-500 font-mono gap-4">
+                <div>SYSTEM STATUS: ALL RATIOS OPTIMAL</div>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white">PRIVACY POLICY</a>
+                    <a href="#" class="hover:text-white">TERMS OF GEOMETRY</a>
+                    <a href="#" class="hover:text-white">CRANIAL DISCLOSURE</a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <!-- ================= BOOKING MODAL ================= -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border-2 border-black p-6 sm:p-8 max-w-md w-full shadow-[12px_12px_0px_#000000] relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-black hover:bg-neutral-100 p-1 border border-black">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="font-mono text-xs text-brand-grid font-bold uppercase mb-1">
+                [ APPOINTMENT RESERVATION ]
+            </div>
+            <h3 class="font-syne text-2xl font-bold uppercase mb-4">Book Cranial Mapping</h3>
+
+            <form onsubmit="handleModalSubmit(event)" class="space-y-4 font-mono text-xs">
+                <div>
+                    <label class="block mb-1 text-neutral-700 font-bold">FULL NAME</label>
+                    <input type="text" required placeholder="e.g. Julian Vance" class="w-full p-2.5 border border-black focus:outline-none focus:ring-2 focus:ring-black">
+                </div>
+                <div>
+                    <label class="block mb-1 text-neutral-700 font-bold">EMAIL ADDRESS</label>
+                    <input type="email" required placeholder="julian@domain.com" class="w-full p-2.5 border border-black focus:outline-none focus:ring-2 focus:ring-black">
+                </div>
+                <div>
+                    <label class="block mb-1 text-neutral-700 font-bold">PREFERRED HAIRSTYLE TARGET</label>
+                    <select class="w-full p-2.5 border border-black bg-white focus:outline-none focus:ring-2 focus:ring-black">
+                        <option>Textured Modern Crop (Ratio 1.618)</option>
+                        <option>Mid Taper Flow (Vector 1.732)</option>
+                        <option>Geometric Wolf Cut (Matrix 2.0)</option>
+                        <option>Custom Architectural Mapping</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3 bg-black text-white font-bold uppercase tracking-wider hover:bg-neutral-800 transition-colors">
+                    Confirm Reservation
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Modal Functions
+        function openModal() {
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+        function handleModalSubmit(e) {
+            e.preventDefault();
+            closeModal();
+        }
+
+        // Math Graph Style Selector Function
+        function selectStyle(name, ratio, jaw, effect) {
+            document.getElementById('activeStyleName').innerText = name;
+            document.getElementById('activeRatio').innerText = ratio;
+            document.getElementById('activeJaw').innerText = jaw;
+            document.getElementById('activeEffect').innerText = effect;
+        }
+
+        // Scissor Click & Parallax Tilt Animation
+        let isScissorsAnimating = false;
+        function animateScissors() {
+            if(isScissorsAnimating) return;
+            isScissorsAnimating = true;
+
+            const upper = document.getElementById('upperBlade');
+            const lower = document.getElementById('lowerBlade');
+
+            upper.style.transform = 'rotate(-18deg)';
+            lower.style.transform = 'rotate(18deg)';
+
+            setTimeout(() => {
+                upper.style.transform = 'rotate(2deg)';
+                lower.style.transform = 'rotate(-2deg)';
+                
+                setTimeout(() => {
+                    upper.style.transform = 'rotate(0deg)';
+                    lower.style.transform = 'rotate(0deg)';
+                    isScissorsAnimating = false;
+                }, 150);
+            }, 120);
+        }
+
+        // Scissor Mouse Parallax
+        const scissorContainer = document.getElementById('scissorContainer');
+        const scissorFrame = document.getElementById('scissorFrame');
+        if(scissorContainer && scissorFrame) {
+            window.addEventListener('mousemove', (e) => {
+                const rect = scissorContainer.getBoundingClientRect();
+                if(rect.top < window.innerHeight && rect.bottom > 0) {
+                    const normX = (e.clientX / window.innerWidth) - 0.5;
+                    const tilt = -12 + (normX * 8);
+                    scissorFrame.style.transform = `rotate(${tilt}deg) translateY(${normX * 10}px)`;
+                }
+            });
+        }
+
+        // ================= INTERACTIVE JELLY ELASTIC PHOTO MESH CANVAS =================
+        const jCanvas = document.getElementById('jellyCanvas');
+        const jCtx = jCanvas.getContext('2d');
+        let jWidth, jHeight;
+
+        // Mesh grid setup
+        const gridRows = 12;
+        const gridCols = 12;
+        let points = [];
+        let isJellyDragging = false;
+        let jMouseX = 0, jMouseY = 0;
+        let jPrevMouseX = 0, jPrevMouseY = 0;
+
+        // High resolution image fallback generator (vector canvas fallback if external image fails)
+        function generateFallbackPatternCanvas() {
+            const fbCanvas = document.createElement('canvas');
+            fbCanvas.width = 600;
+            fbCanvas.height = 750;
+            const fbCtx = fbCanvas.getContext('2d');
+            
+            fbCtx.fillStyle = '#0f172a';
+            fbCtx.fillRect(0, 0, 600, 750);
+            
+            // Draw monochrome anime style face outline
+            fbCtx.strokeStyle = '#ffffff';
+            fbCtx.lineWidth = 4;
+            fbCtx.beginPath();
+            fbCtx.arc(300, 360, 160, 0, Math.PI * 2);
+            fbCtx.stroke();
+            
+            // Spiky Hair lines
+            fbCtx.fillStyle = '#ffffff';
+            fbCtx.beginPath();
+            fbCtx.moveTo(140, 320);
+            for(let i = 0; i < 14; i++) {
+                const angle = (i / 14) * Math.PI + Math.PI;
+                const r = 180 + (i % 2 === 0 ? 50 : 10);
+                fbCtx.lineTo(300 + Math.cos(angle) * r, 340 + Math.sin(angle) * r);
+            }
+            fbCtx.fill();
+            return fbCanvas;
+        }
+
+        const heroImg = new Image();
+        heroImg.crossOrigin = "anonymous";
+        heroImg.src = 'WIN_20260907_23_58_53_Pro.jpg';
+        let imgLoaded = false;
+
+        heroImg.onload = () => { imgLoaded = true; };
+        heroImg.onerror = () => {
+            // Backup fallback sequence if image path fails
+            heroImg.src = 'image_1f7a98.jpg';
+            heroImg.onload = () => { imgLoaded = true; };
+            heroImg.onerror = () => {
+                const fallback = generateFallbackPatternCanvas();
+                heroImg.src = fallback.toDataURL();
+                imgLoaded = true;
+            };
+        };
+
+        function initJellyGrid() {
+            const rect = jCanvas.getBoundingClientRect();
+            jWidth = rect.width;
+            jHeight = rect.height;
+            jCanvas.width = jWidth * window.devicePixelRatio;
+            jCanvas.height = jHeight * window.devicePixelRatio;
+            jCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            points = [];
+            for (let r = 0; r <= gridRows; r++) {
+                for (let c = 0; c <= gridCols; c++) {
+                    const origX = (c / gridCols) * jWidth;
+                    const origY = (r / gridRows) * jHeight;
+                    points.push({
+                        origX: origX,
+                        origY: origY,
+                        x: origX,
+                        y: origY,
+                        vx: 0,
+                        vy: 0,
+                        u: c / gridCols,
+                        v: r / gridRows,
+                        pinned: (r === 0 && (c === 0 || c === gridCols)) || (r === gridRows && (c === 0 || c === gridCols))
+                    });
+                }
+            }
+        }
+
+        function getPoint(r, c) {
+            return points[r * (gridCols + 1) + c];
+        }
+
+        function updateJellyPhysics() {
+            const mouseVelX = jMouseX - jPrevMouseX;
+            const mouseVelY = jMouseY - jPrevMouseY;
+            jPrevMouseX = jMouseX;
+            jPrevMouseY = jMouseY;
+
+            points.forEach(p => {
+                if (p.pinned) return;
+
+                const dx = p.x - jMouseX;
+                const dy = p.y - jMouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const radius = 130;
+
+                if (dist < radius && dist > 0) {
+                    const force = (1 - dist / radius);
+                    if (isJellyDragging) {
+                        p.vx += mouseVelX * force * 0.5;
+                        p.vy += mouseVelY * force * 0.5;
+                    } else {
+                        p.vx += (dx / dist) * force * 4.5;
+                        p.vy += (dy / dist) * force * 4.5;
+                    }
+                }
+
+                const springX = (p.origX - p.x) * 0.12;
+                const springY = (p.origY - p.y) * 0.12;
+
+                p.vx += springX;
+                p.vy += springY;
+
+                p.vx *= 0.84;
+                p.vy *= 0.84;
+
+                p.x += p.vx;
+                p.y += p.vy;
+            });
+        }
+
+        function drawJellyMesh() {
+            jCtx.clearRect(0, 0, jWidth, jHeight);
+            updateJellyPhysics();
+
+            if (imgLoaded) {
+                for (let r = 0; r < gridRows; r++) {
+                    for (let c = 0; c < gridCols; c++) {
+                        const p0 = getPoint(r, c);
+                        const p1 = getPoint(r, c + 1);
+                        const p2 = getPoint(r + 1, c);
+                        const p3 = getPoint(r + 1, c + 1);
+
+                        drawTexturedTriangle(
+                            p0.x, p0.y, p0.u, p0.v,
+                            p1.x, p1.y, p1.u, p1.v,
+                            p2.x, p2.y, p2.u, p2.v
+                        );
+
+                        drawTexturedTriangle(
+                            p1.x, p1.y, p1.u, p1.v,
+                            p3.x, p3.y, p3.u, p3.v,
+                            p2.x, p2.y, p2.u, p2.v
+                        );
+                    }
+                }
+
+                // Apply organic edge feather blur mask over canvas edges
+                jCtx.save();
+                jCtx.globalCompositeOperation = 'destination-out';
+                const gradOuter = jCtx.createRadialGradient(
+                    jWidth / 2, jHeight / 2, Math.min(jWidth, jHeight) * 0.32,
+                    jWidth / 2, jHeight / 2, Math.max(jWidth, jHeight) * 0.52
+                );
+                gradOuter.addColorStop(0, 'rgba(0, 0, 0, 0)');
+                gradOuter.addColorStop(0.7, 'rgba(0, 0, 0, 0.4)');
+                gradOuter.addColorStop(1, 'rgba(0, 0, 0, 1)');
+                jCtx.fillStyle = gradOuter;
+                jCtx.fillRect(0, 0, jWidth, jHeight);
+                jCtx.restore();
+            }
+
+            requestAnimationFrame(drawJellyMesh);
+        }
+
+        function drawTexturedTriangle(x0, y0, u0, v0, x1, y1, u1, v1, x2, y2, u2, v2) {
+            jCtx.save();
+            jCtx.beginPath();
+            jCtx.moveTo(x0, y0);
+            jCtx.lineTo(x1, y1);
+            jCtx.lineTo(x2, y2);
+            jCtx.closePath();
+            jCtx.clip();
+
+            const iw = heroImg.width || 600;
+            const ih = heroImg.height || 750;
+
+            const px0 = u0 * iw, py0 = v0 * ih;
+            const px1 = u1 * iw, py1 = v1 * ih;
+            const px2 = u2 * iw, py2 = v2 * ih;
+
+            const denom = (px0 * (py1 - py2) + px1 * (py2 - py0) + px2 * (py0 - py1));
+            if (Math.abs(denom) < 0.0001) {
+                jCtx.restore();
+                return;
+            }
+
+            const a = (x0 * (py1 - py2) + x1 * (py2 - py0) + x2 * (py0 - py1)) / denom;
+            const c = (x0 * (px2 - px1) + x1 * (px0 - px2) + x2 * (px1 - px0)) / denom;
+            const e = (x0 * (px1 * py2 - px2 * py1) + x1 * (px2 * py0 - px0 * py2) + x2 * (px0 * py1 - px1 * py0)) / denom;
+
+            const b = (y0 * (py1 - py2) + y1 * (py2 - py0) + y2 * (py0 - py1)) / denom;
+            const d = (y0 * (px2 - px1) + y1 * (px0 - px2) + y2 * (px1 - px0)) / denom;
+            const f = (y0 * (px1 * py2 - px2 * py1) + y1 * (px2 * py0 - px0 * py2) + y2 * (px0 * py1 - px1 * py0)) / denom;
+
+            jCtx.transform(a, b, c, d, e, f);
+            jCtx.drawImage(heroImg, 0, 0);
+            jCtx.restore();
+        }
+
+        function updateJellyMouse(e) {
+            const rect = jCanvas.getBoundingClientRect();
+            jMouseX = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            jMouseY = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+        }
+
+        jCanvas.addEventListener('mousemove', (e) => updateJellyMouse(e));
+        jCanvas.addEventListener('mousedown', (e) => {
+            isJellyDragging = true;
+            updateJellyMouse(e);
+        });
+        window.addEventListener('mouseup', () => { isJellyDragging = false; });
+        jCanvas.addEventListener('touchmove', (e) => updateJellyMouse(e));
+        jCanvas.addEventListener('touchstart', (e) => {
+            isJellyDragging = true;
+            updateJellyMouse(e);
+        });
+        window.addEventListener('touchend', () => { isJellyDragging = false; });
+
+
+        // ================= INTERACTIVE COMB CANVAS WAVE PHYSICS =================
+        const canvas = document.getElementById('combCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        const numTeeth = 48;
+        let teeth = [];
+        let mouseX = -1000;
+        let mouseY = -1000;
+        let isHovered = false;
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
+            canvas.width = width * window.devicePixelRatio;
+            canvas.height = height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            initComb();
+            initJellyGrid();
+        }
+
+        function initComb() {
+            teeth = [];
+            const margin = 30;
+            const combWidth = width - margin * 2;
+            const spacing = combWidth / (numTeeth - 1);
+            const spineY = height * 0.28;
+            const toothLength = height * 0.52;
+
+            for (let i = 0; i < numTeeth; i++) {
+                teeth.push({
+                    x: margin + i * spacing,
+                    spineY: spineY,
+                    baseY: spineY + toothLength,
+                    currentOffset: 0,
+                    velocity: 0,
+                    stiffness: 0.09,
+                    damping: 0.93
+                });
+            }
+        }
+
+        function updateMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            mouseY = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            isHovered = true;
+            updateMousePos(e);
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            isHovered = true;
+            updateMousePos(e);
+        });
+        canvas.addEventListener('mouseleave', () => { isHovered = false; });
+        canvas.addEventListener('touchend', () => { isHovered = false; });
+        canvas.addEventListener('click', (e) => {
+            updateMousePos(e);
+            teeth.forEach(t => {
+                const dist = Math.abs(t.x - mouseX);
+                if (dist < 50) {
+                    t.velocity = (Math.random() - 0.5) * 30;
+                }
+            });
+        });
+
+        function drawComb() {
+            ctx.clearRect(0, 0, width, height);
+
+            const spineY = height * 0.28;
+            
+            // Clean Acrylic Spine
+            ctx.fillStyle = '#111111';
+            ctx.strokeStyle = '#333333';
+            ctx.lineWidth = 1.5;
+
+            ctx.beginPath();
+            ctx.roundRect(20, spineY - 32, width - 40, 32, [4, 4, 0, 0]);
+            ctx.fill();
+            ctx.stroke();
+
+            // Accent Line
+            ctx.fillStyle = '#0047FF';
+            ctx.fillRect(25, spineY - 26, width - 50, 2);
+
+            let totalEnergy = 0;
+
+            teeth.forEach((t) => {
+                if (isHovered) {
+                    const dist = Math.abs(t.x - mouseX);
+                    if (dist < 30 && mouseY > t.spineY && mouseY < t.baseY + 30) {
+                        const force = (1 - dist / 30) * 10;
+                        t.velocity += (mouseX > t.x ? -force : force) * 0.22;
+                    }
+                }
+
+                const displacement = -t.currentOffset;
+                const force = displacement * t.stiffness;
+                t.velocity += force;
+                t.velocity *= t.damping;
+                t.currentOffset += t.velocity;
+
+                totalEnergy += Math.abs(t.velocity);
+
+                const tipX = t.x + t.currentOffset;
+                const tipY = t.baseY;
+
+                // Sharp Polished Teeth
+                ctx.beginPath();
+                ctx.moveTo(t.x - 2, t.spineY);
+                ctx.lineTo(t.x + 2, t.spineY);
+                ctx.lineTo(tipX + 1.2, tipY);
+                ctx.lineTo(tipX - 1.2, tipY);
+                ctx.closePath();
+
+                const grad = ctx.createLinearGradient(t.x, t.spineY, tipX, tipY);
+                grad.addColorStop(0, '#333333');
+                grad.addColorStop(0.6, '#0f0f0f');
+                grad.addColorStop(1, Math.abs(t.currentOffset) > 2 ? '#0047FF' : '#a1a1aa');
+
+                ctx.fillStyle = grad;
+                ctx.fill();
+            });
+
+            // Wave Sine Connecting Filament
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(0, 71, 255, 0.5)';
+            ctx.lineWidth = 1;
+            teeth.forEach((t, i) => {
+                const tipX = t.x + t.currentOffset;
+                if (i === 0) ctx.moveTo(tipX, t.baseY + 4);
+                else ctx.lineTo(tipX, t.baseY + 4);
+            });
+            ctx.stroke();
+
+            const freqElem = document.getElementById('combWaveFreq');
+            if(freqElem) {
+                freqElem.innerText = `FREQUENCY: ${(totalEnergy * 8.2).toFixed(2)} Hz`;
+            }
+
+            requestAnimationFrame(drawComb);
+        }
+
+        // Window resize handler & boot up
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = function() {
+            resizeCanvas();
+            drawComb();
+            drawJellyMesh();
+        };
+    </script>
+</body>
+</html>
